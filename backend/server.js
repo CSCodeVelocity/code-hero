@@ -13,8 +13,8 @@ app.use('/build', express.static(path.join(__dirname, '../build')));
 
 // serve html
 app.get('/', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
+app.get('/game', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 
-console.log('test');
 // api routes
 app.use('/users', userRouter);
 
