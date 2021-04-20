@@ -6,9 +6,9 @@ export default function authForm(props) {
   console.log(props);
   return (
     <div className="authForm">
-      <input type="text"></input>
+      <input type="text" placeholder="Username"></input>
       <br></br>
-      <input type="text"></input>
+      <input type="text" placeholder="Password"></input>
       <br></br>
       <button
         className="authButton"
