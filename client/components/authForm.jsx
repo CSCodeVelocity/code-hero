@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 
-export default function authForm(props) {
+const authForm = (props) => {
   console.log(props);
 
   const handleLogin = (e) => {
@@ -47,4 +47,5 @@ export default function authForm(props) {
       </button>
     </div>
   );
-}
+};
+export default authForm;
