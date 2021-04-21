@@ -1,21 +1,29 @@
-import React, {useState} from 'react';
+import React, {useState, useReducer} from 'react';
 import StartModal from '../components/startModal.jsx'
 import Modal from '../components/modal.jsx'
 import socket from '../utils/socket'
-
+import {initialStartGameState, startGameReducer} from '../state/reducers'
 
 const gamePage = () => {
-  const [playersJoined, setPlayersJoined] = useState(1);
-  socket.on('playersJoined', (num)=>setPlayersJoined(num))
+  // const [playersJoined, setPlayersJoined] = useState(1);
+  const [startGameState, startGameDispatch] = useReducer(startGameReducer, initialStartGameState)
+  const {playersJoined, countDown} = startGameState
+  socket.on('playersJoined', (num)=>startGameDispatch({
+    type: 'UPDATE_PLAYERS',
+    payload: {
+      playersJoined: num
+    }
+  }))
   const [players,setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}])
-  const [countDown, setCountDown] = useState(5)
-  console.log(countDown)
+  // const [countDown, setCountDown] = useState(5)
+  console.log('countDown:', countDown)
+  console.log('playersJoined:', playersJoined)
 
   if (playersJoined < 2 || countDown > 0) {
 		return (
       <div>
         <div>only see this when game starts</div>
-			  <Modal playersJoined={playersJoined} countDown={countDown} setCountDown={setCountDown}/>
+			  <Modal playersJoined={playersJoined} countDown={countDown} startGameDispatch={startGameDispatch}/>
       </div>
 		)
   } else {

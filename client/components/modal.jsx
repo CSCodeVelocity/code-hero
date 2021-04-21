@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-const Modal = ({playersJoined,countDown,setCountDown}) => {
+const Modal = ({playersJoined,countDown,startGameDispatch}) => {
 	if (playersJoined < 2) {
 		return (
 			<div className="modal">
@@ -15,8 +15,12 @@ const Modal = ({playersJoined,countDown,setCountDown}) => {
 				</div>
 			</div>
 		)
-	} else {
-		setInterval(()=>setCountDown(countDown-1),1000)
+	} else if (countDown > 0) {
+		setInterval(()=>startGameDispatch({
+			type: 'COUNT_DOWN',
+			payload: {
+				countDown: countDown-1
+			}}),1000)
 		return (
 			<div className="modal">
 				<div className="modal-content">
