@@ -1,31 +1,22 @@
-import React from 'react';
-import CodeBlock from './CodeBlock.js';
-import CodeInput from './CodeInput.js';
+import React, { useEffect, useReducer } from 'react';
+import useReducerThunk from '../state/customHooks.js';
+import { initialCodeState, codeReducer } from '../state/reducers.js';
+import CodeBlock from './CodeBlock.jsx';
+import CodeInput from './CodeInput.jsx';
 
-const initialState = {
-  codeBlock: '',// fetched from server
-  codeInput: '',
-};
-
-const CODEBLOCK_ADD_CODE = 'CODEBLOCK_ADD_CODE' ;
-
-const reducer = (state, action) {
-  if (action.type === CODEBLOCK_ADD_CODE){
-    return { ...state, action.payload };
-  }
-  return state;
-}
-
-function App() {
-  const [codeTyped, dispatch] = useReducer(reducer, initialState);
+const CodeContainer = () => {
+  const [state, dispatch] = useReducerThunk(codeReducer, initialCodeState);
+  useEffect(async () => {
+    const response = await fetch('../../data/codeblock.json');
+    console.log(response);
+  });
   return (
     <div>
       <span>Test stuff</span>
-      <CodeBlock />
+      <CodeBlock code={} />
       <CodeInput />
     </div>
   );
-}
+};
 
-export default App;
-
+export default CodeContainer;

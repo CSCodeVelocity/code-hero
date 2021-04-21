@@ -4,7 +4,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/gruvbox-dark.css';
 import 'codemirror/mode/javascript/javascript.js';
 
-function CodeBlock() {
+const CodeBlock = props => {
   const stuff = "function stuff() {\n  console.log('what is up');\n}";
   return (
     <CodeMirror
@@ -20,6 +20,6 @@ function CodeBlock() {
       }}
     />
   );
-}
+};
 
 export default CodeBlock;
