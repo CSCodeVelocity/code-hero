@@ -7,11 +7,16 @@ export const initialAuthState = {
 };
 export const authReducer = (state, action) => {
   switch (action.type) {
-    case 'SOME_ACTION_TYPE':
+    case 'LOGGED_IN': {
+      const { username, userId, isOnline } = action.payload;
+      console.log('IN AUTHREDUCER: ', action.payload);
       return {
         ...state,
-        // Some changed state to go here
+        username,
+        userId,
+        isOnline,
       };
+    }
   }
 };
 /* Reducers for the game */

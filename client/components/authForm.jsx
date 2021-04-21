@@ -1,8 +1,11 @@
 import React, { useReducer } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
+import { authReducer, initialAuthState } from '../state/reducers';
 
 const authForm = (props) => {
   console.log(props);
+
+  const [state, dispatch] = useReducer(authReducer, initialAuthState);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -26,6 +29,14 @@ const authForm = (props) => {
         // success === false ? do some state stuff and redirect back to login : route/redirect to /game with username and userId (also do some state stuffs)
         if (!success) return;
         else {
+          dispatch({
+            type: 'LOGGED_IN',
+            payload: {
+              username: username,
+              userId: userId,
+              isOnline: true,
+            },
+          });
           props.history.push('/game');
         }
       });
