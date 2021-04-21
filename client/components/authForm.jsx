@@ -7,7 +7,9 @@ export default function authForm(props) {
   const handleLogin = (e) => {
     e.preventDefault();
     const username = document.querySelector('#username').value;
-    const password = document.querySelector('#password').value;
+    const password = document.querySelector('#pass').value;
+
+    if (!username || !password) return; // Need to add message to user for empty fields
 
     fetch('/login', {
       method: 'POST',
@@ -18,12 +20,15 @@ export default function authForm(props) {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        const { username, userId, success } = res.body;
+      .then((res) => {
+        console.log('RESPONSE: ', res);
+        const { username, userId, success } = res;
         // success === false ? do some state stuff and redirect back to login : route/redirect to /game with username and userId (also do some state stuffs)
+        if (!success) return;
+        else {
+          props.history.push('/game');
+        }
       });
-
-    props.history.push('/game');
   };
 
   const handleSignUp = () => {};
@@ -32,7 +37,7 @@ export default function authForm(props) {
     <div className="authForm">
       <input id="username" type="text" placeholder="Username"></input>
       <br></br>
-      <input id="password" type="text" placeholder="Password"></input>
+      <input id="pass" type="password" placeholder="Password"></input>
       <br></br>
       <button id="logIn" className="authButton" onClick={handleLogin}>
         Log In
