@@ -4,9 +4,9 @@ const userRouter = require('./routes/users');
 
 const app = express();
 const http = require('http');
+const { Client } = require('pg');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
-const path = require('path');
 const PORT = 3000;
 
 // handle incoming json
@@ -40,8 +40,10 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.log);
 });
 
-io.on('connection', (socket) => {
-  console.log('a user connected');
+io.on('connection', (client) => {
+  console.log('players connected: ', io.engine.clientsCount);
+
+  client.broadcast.emit('playersJoined', io.engine.clientsCount);
 });
 
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));
