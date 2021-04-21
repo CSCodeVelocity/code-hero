@@ -6,7 +6,7 @@ socket.on('connect', () => {
   console.log('socket connected: ', socket.connected);
 });
 
-socket.on('playersJoined', (data) => {
+socket.on('test', (data) => {
   console.log('number of players: ', data);
 });
 

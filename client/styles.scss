@@ -1,0 +1,15 @@
+.modal {
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 40%;
+  margin: auto;
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalText {
+  text-align: center;
+}

@@ -28,7 +28,9 @@ app.get('/game', (req, res) =>
 app.use('/users', userRouter);
 
 // login routes
-app.post('/login', userController.verifyUser, (req, res) => res.status(200).json(res.locals));
+app.post('/login', userController.verifyUser, (req, res) =>
+  res.status(200).json(res.locals)
+);
 
 // 404 handler
 app.use((req, res) => res.status(404).send('This Page does not exist'));
@@ -47,7 +49,8 @@ app.use((err, req, res, next) => {
 io.on('connection', (client) => {
   console.log('players connected: ', io.engine.clientsCount);
 
-  client.broadcast.emit('playersJoined', io.engine.clientsCount);
+  client.broadcast.emit('test', io.engine.clientsCount);
+  io.emit('playersJoined', io.engine.clientsCount);
 });
 
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));
