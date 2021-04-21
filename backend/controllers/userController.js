@@ -2,23 +2,44 @@ const db = require('../models/models.js');
 
 const userController = {};
 
-userController.getUser = (req, res, next) => {
+userController.getWins = (req, res, next) => {
   const idParam = [
     req.params.id,
   ];
-  const query = 'SELECT * FROM public."Users" WHERE id = $1';
+  const query = 'SELECT * FROM public."Games" WHERE winner_id = $1';
 
   db.query(query, idParam, (err, result) => {
     if (err) {
       return next({
-        log: 'userController.getUser failed',
-        message: { err: 'failed to find user' },
+        log: 'userController.getWins failed',
+        message: { err: 'failed to find users wins' },
       });
     }
-    const userData = result.rows[0];
-    console.log(userData);
-    if (userData === undefined) return next({ log: 'no user at this id' });
-    res.locals.user = userData;
+    let wins = result.rows[0];
+    console.log('wins: ', wins);
+    if (wins === undefined) wins = 0;
+    res.locals.wins = wins;
+    return next();
+  });
+};
+
+userController.getTotalGames = (req, res, next) => {
+  const idParam = [
+    req.params.id,
+  ];
+  const query = 'SELECT * FROM public."Users_Games" WHERE user_id = $1';
+
+  db.query(query, idParam, (err, result) => {
+    if (err) {
+      return next({
+        log: 'userController.getTotalGames failed',
+        message: { err: 'failed to find users total games' },
+      });
+    }
+    let totalGames = result.rows[0];
+    console.log('totalGames: ', totalGames);
+    if (totalGames === undefined) totalGames = 0;
+    res.locals.totalGames = totalGames;
     return next();
   });
 };
