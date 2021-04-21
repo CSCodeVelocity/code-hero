@@ -15,7 +15,7 @@ userController.getWins = (req, res, next) => {
         message: { err: 'failed to find users wins' },
       });
     }
-    let wins = result.rows[0];
+    let wins = result.rows.length;
     console.log('wins: ', wins);
     if (wins === undefined) wins = 0;
     res.locals.wins = wins;
@@ -36,10 +36,10 @@ userController.getTotalGames = (req, res, next) => {
         message: { err: 'failed to find users total games' },
       });
     }
-    let totalGames = result.rows[0];
+    let totalGames = result.rows.length;
     console.log('totalGames: ', totalGames);
     if (totalGames === undefined) totalGames = 0;
-    res.locals.totalGames = totalGames;
+    res.locals.losses = totalGames - res.locals.wins;
     return next();
   });
 };
