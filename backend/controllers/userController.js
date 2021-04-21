@@ -23,4 +23,36 @@ userController.getUser = (req, res, next) => {
   });
 };
 
+// this function verifies that the user exists in the database and sends back their id, username,
+// and success boolean
+userController.verifyUser = (req, res, next) => {
+  const { username, password } = req.body;
+  const userValues = [
+    username,
+    password,
+  ];
+  console.log('userValues', userValues);
+
+  const query = 'SELECT * FROM public."Users" WHERE username = $1 AND password = $2';
+
+  db.query(query, userValues, (err, result) => {
+    // default username and id to empty strings in case of failed login attempt
+    res.locals.userId = '';
+    res.locals.username = '';
+    if (err) {
+      res.locals.success = false;
+      return next();
+    }
+    console.log('result', result.rows[0]);
+    if (result.rows.length === 0) {
+      res.locals.success = false;
+      return next();
+    }
+    res.locals.success = true;
+    res.locals.userId = result.rows[0].id;
+    res.locals.username = result.rows[0].username;
+    return next();
+  });
+};
+
 module.exports = userController;
