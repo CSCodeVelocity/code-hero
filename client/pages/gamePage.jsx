@@ -1,5 +1,6 @@
 import React from 'react';
 
-export const gamePage = () => {
+const gamePage = () => {
   return <div>Game Page</div>;
 };
+export default gamePage;
