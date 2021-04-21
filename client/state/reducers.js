@@ -19,7 +19,6 @@ export const authReducer = (state, action) => {
 
     case 'SET_SIGNUP': {
       const { signUp } = action.payload;
-      console.log('IN AUTHREDUCER: ', action.payload);
       return {
         ...state,
         signUp,

@@ -119,7 +119,11 @@ const authForm = (props) => {
         <br></br>
         <input id="pass" type="password" placeholder="Password"></input>
         <br></br>
-        <input id="passcheck" type="password" placeholder="Password"></input>
+        <input
+          id="passcheck"
+          type="password"
+          placeholder="Re-Enter Password"
+        ></input>
         <br></br>
         <button id="usercreate" className="authButton" onClick={handleSignUp}>
           Sign Up
