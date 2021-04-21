@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const userController = require('./controllers/userController');
 const userRouter = require('./routes/users');
 
 const app = express();
@@ -25,6 +26,9 @@ app.get('/game', (req, res) =>
 
 // api routes
 app.use('/users', userRouter);
+
+// login routes
+app.post('/login', userController.verifyUser, (req, res) => res.status(200).json(res.locals));
 
 // 404 handler
 app.use((req, res) => res.status(404).send('This Page does not exist'));
