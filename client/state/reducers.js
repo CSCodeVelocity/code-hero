@@ -1,4 +1,4 @@
-import * from './actions.js';
+import * as actionTypes from './actions.js';
 
 /* Reducers for authentication */
 export const initialAuthState = {
@@ -53,22 +53,21 @@ export const gameReducer = (state, action) => {
 };
 
 export const initialCodeState = {
-  codeBlock: '',// fetched from server
+  codeBlock: '', // fetched from server
   codeInput: '',
 };
-export const codeReducer = (state, action) {
-  if (action.type === CODEINPUT_INPUT_CODE){
-    return { ...state, action.payload };
+export const codeReducer = (state, action) => {
+  if (action.type === actionTypes.CODEINPUT_INPUT_CODE) {
+    return { ...state, ...action.payload };
   }
-  if (action.type === CODEBLOCK_REQUEST) {
-    return { ...state, action.payload };
+  if (action.type === actionTypes.CODEBLOCK_REQUEST) {
+    return { ...state, ...action.payload };
   }
-  if (action.type === CODEBLOCK_SUCCEED) {
-    return { ...state, action.payload };
+  if (action.type === actionTypes.CODEBLOCK_SUCCEED) {
+    return { ...state, ...action.payload };
   }
-  if (action.type === CODEBLOCK_FAIL) {
-    return { ...state, action.payload };
+  if (action.type === actionTypes.CODEBLOCK_FAIL) {
+    return { ...state, ...action.payload };
   }
   return state;
 };
-
