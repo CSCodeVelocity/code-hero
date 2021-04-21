@@ -6,22 +6,22 @@ export default function authForm(props) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // const username = document.querySelector('#username').value;
-    // const password = document.querySelector('#password').value;
+    const username = document.querySelector('#username').value;
+    const password = document.querySelector('#password').value;
 
-    // fetch('/auth/login', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     username: username,
-    //     password: password,
-    //   }),
-    // }).then(res => res.json())
-    //     .then(data => {
-    //         const { username } = res.body;
-    //         const { user_id } = res.body;
-
-    // })
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const { username, userId, success } = res.body;
+        // success === false ? do some state stuff and redirect back to login : route/redirect to /game with username and userId (also do some state stuffs)
+      });
 
     props.history.push('/game');
   };
