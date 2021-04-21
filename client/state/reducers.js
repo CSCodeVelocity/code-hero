@@ -1,12 +1,29 @@
 /* Reducers for authentication */
-export const initialAuthState = {};
+export const initialAuthState = {
+  isOnline: false,
+  signUp: false,
+  username: '',
+  userId: 0,
+};
 export const authReducer = (state, action) => {
   switch (action.type) {
-    case 'SOME_ACTION_TYPE':
+    case 'LOGGED_IN': {
+      const { username, userId, isOnline } = action.payload;
       return {
         ...state,
-        // Some changed state to go here
+        username,
+        userId,
+        isOnline,
       };
+    }
+
+    case 'SET_SIGNUP': {
+      const { signUp } = action.payload;
+      return {
+        ...state,
+        signUp,
+      };
+    }
   }
 };
 /* Reducers for the game */
