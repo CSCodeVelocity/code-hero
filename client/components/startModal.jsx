@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import socket from '../utils/socket'
 
 
-export default function startModal({playersJoined, setPlayersJoined}){
+const startModal = ({playersJoined, setPlayersJoined}) => {
 	socket.on('playersJoined', (num)=>setPlayersJoined(num))
 	const [countDown, setCountDown] = useState(5)
 
@@ -26,3 +26,5 @@ export default function startModal({playersJoined, setPlayersJoined}){
 		}
 	}
 }
+
+export default startModal;

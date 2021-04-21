@@ -1,12 +1,17 @@
-import React, {useState} from 'react';
-// import socket from './utils/socket'
-import GamePage from './pages/gamePage.jsx'
+import React from 'react';
+import AuthPage from './pages/authPage.jsx';
+import GamePage from './pages/gamePage.jsx';
+import { Route } from 'react-router-dom';
 
 const App = () => {
-  const [playersJoined, setPlayersJoined] = useState(1);
-
-  // return <div>App Rendering</div>;
-  return <GamePage playersJoined={playersJoined} setPlayersJoined={setPlayersJoined}/>
+  
+  return (
+    <div className="App">
+      <h1>Protected React Router</h1>
+      <Route exact path="/" component={AuthPage} />
+      <Route path="/game" component={GamePage} />
+    </div>
+  );
 };
 
 export default App;
