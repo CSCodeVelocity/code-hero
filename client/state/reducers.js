@@ -9,12 +9,20 @@ export const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGGED_IN': {
       const { username, userId, isOnline } = action.payload;
-      console.log('IN AUTHREDUCER: ', action.payload);
       return {
         ...state,
         username,
         userId,
         isOnline,
+      };
+    }
+
+    case 'SET_SIGNUP': {
+      const { signUp } = action.payload;
+      console.log('IN AUTHREDUCER: ', action.payload);
+      return {
+        ...state,
+        signUp,
       };
     }
   }
