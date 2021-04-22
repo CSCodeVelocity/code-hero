@@ -3,8 +3,7 @@ import AuthForm from '../components/authForm.jsx';
 
 const authPage = (props) => {
   return (
-    <div>
-      <h1>Authentication Page</h1>
+    <div className="authpage">
       <AuthForm history={props.history} />
     </div>
   );
