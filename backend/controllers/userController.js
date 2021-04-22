@@ -50,7 +50,7 @@ userController.logGame = (req, res, next) => {
         message: { err: 'failed to log game data' },
       });
     }
-    console.log('result.rows', result.rows)
+    console.log('result.rows', result.rows);
     res.locals.id = result.rows[0].id;
     return next();
   });
@@ -103,23 +103,66 @@ userController.getTop3Times = (req, res, next) => {
     req.params.codeBlockId,
   ];
   const query = `
-    SELECT public."Users".username, public."Users_Games".time FROM public."Users" LEFT JOIN public."Users_Games" WHERE public."Users".id IN
-    (SELECT time, user_id FROM public."Users_Games" WHERE game_id IN 
-    (SELECT id FROM public."Games" WHERE code_block_id = $1))
+    SELECT time, user_id FROM public."Users_Games" WHERE game_id IN 
+    (SELECT id FROM public."Games" WHERE code_block_id = $1)
     ORDER BY time LIMIT 3
-    
     `;
-    // public."Users" JOIN public."Users_Games".user_id = public."Users".id
+
+  // `
+  // SELECT public."Users".username, public."Users_Games".time FROM public."Users" LEFT JOIN public."Users_Games" WHERE public."Users".id IN
+  // (SELECT time, user_id FROM public."Users_Games" WHERE game_id IN
+  // (SELECT id FROM public."Games" WHERE code_block_id = $1))
+  // ORDER BY time LIMIT 3
+  // `
 
   db.query(query, idParam, (err, result) => {
     if (err) {
       return next({
-        log: err.message,
+        log: 'error in userController.getTop3Times',
+        message: { err: 'failed to find top 3 times' },
+      });
+    }
+    // console.log('result rows from query', result.rows);
+    // res.locals.times = [];
+    // res.locals.ids = [];
+    // result.rows.forEach((user) => res.locals.times.push(user.time));
+    // result.rows.forEach((user) => res.locals.ids.push(user.user_id));
+    // console.log(res.locals.times);
+    console.log('result rows from first query', result.rows)
+    res.locals.gameData = result.rows;
+    return next();
+  });
+};
+
+userController.getTop3Users = (req, res, next) => {
+  // console.log('query ids', res.locals.times);
+  const values = [];
+  res.locals.gameData.forEach((obj) => values.push(obj.user_id));
+  console.log('values', values);
+  const query = `
+  SELECT username FROM public."Users" WHERE id IN ($1, $2, $3)
+ `;
+
+  db.query(query, values, (err, result) => {
+    if (err) {
+      return next({
+        log: `error in userController.getTop3Users, error: ${err.message}`,
         message: { err: 'failed to find top 3 times' },
       });
     }
     console.log('result rows from query', result.rows);
-    res.locals.gameData = result.rows;
+
+    // counter corresponding to length of result.rows since there
+    // could be multiple high scores per user
+    let counter = 0;
+
+    res.locals.gameData.forEach((obj, index) => {
+      if (index !== 0 && obj.user_id !== res.locals.gameData[index - 1].user_id) {
+        counter ++;
+      }
+      obj.username = result.rows[counter].username;
+    });
+
     return next();
   });
 };

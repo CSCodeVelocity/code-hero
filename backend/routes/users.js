@@ -7,7 +7,7 @@ router.get('/:id', userController.getWins, userController.getTotalGames, (req, r
   res.status(200).json(res.locals);
 });
 
-router.get('/userdata/:codeBlockId', userController.getTop3Times, (req, res) => {
+router.get('/userdata/:codeBlockId', userController.getTop3Times, userController.getTop3Users, (req, res) => {
   res.status(200).json(res.locals.gameData);
 });
 
