@@ -15,6 +15,7 @@ const gamePage = () => {
   const [userRecord, setUserRecord] = useState({wins:0,losses:0})
   const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}])
 
+  // get userRecord on initial mount
   useEffect(() => {
     // to update to feed user id from state
     fetch('/users/1')
@@ -22,15 +23,18 @@ const gamePage = () => {
       .then(data => setUserRecord(data))
   }, [])
 
+  // change user's totalWins and totalLosses on initial mount and userRecord change
   useEffect(() => {
-    setPlayers([...players,players[0].totalWins = userRecord.wins])
+    setPlayers([...players, players[0].totalWins = userRecord.wins])
     setPlayers([...players, players[0].totalLosses = userRecord.losses])
   }, [userRecord])
 
+  // listening for playersJoined
   socket.on('playersJoined', (data)=>setPlayersJoined(data))
 
   console.log('players:', players)
 
+  // sends user data for other player to update player2's wins and losses
   useEffect(() => {
     socket.emit('userRecord', players[0])
     socket.on('opponentRecord', data=>{
@@ -39,6 +43,7 @@ const gamePage = () => {
     })
   }, [userRecord])
 
+  // get random eevees for raceTrack
   const eevees = [eevee, espeon, jolteon, leafeon, umbreon, vaporeon]
 
   function getRandom(min,max) {
@@ -54,8 +59,8 @@ const gamePage = () => {
       />
     )
   }
-
-
+  
+  // conditional rendering depending on number of players in the room
   if (playersJoined < 2) {
 		return (
       <div>
