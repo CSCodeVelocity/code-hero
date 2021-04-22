@@ -3,6 +3,12 @@ import Modal from '../components/modal.jsx'
 import GameHeader from '../components/gameHeader.jsx'
 import RaceTrack from '../components/raceTrack.jsx'
 import socket from '../utils/socket'
+import jolteon from '../assets/jolteon.jpeg'
+import leafeon from '../assets/leafeon.png'
+import eevee from '../assets/eevee.jpeg'
+import espeon from '../assets/espeon.png'
+import umbreon from '../assets/umbreon.jpeg'
+import vaporeon from '../assets/vaporeon.jpeg'
 
 const gamePage = () => {
   const [playersJoined, setPlayersJoined] = useState(1);
@@ -33,6 +39,23 @@ const gamePage = () => {
     })
   }, [userRecord])
 
+  const eevees = [eevee, espeon, jolteon, leafeon, umbreon, vaporeon]
+
+  function getRandom(min,max) {
+    return Math.floor(Math.random()*(max-min) + min);
+  }
+
+  const raceTrackArray = [];
+  for (let i = 0; i < 2; i++) {
+    raceTrackArray.push(
+      <RaceTrack
+        pokemon={eevees[getRandom(0,6)]}
+        percentage={players[i].percentage}
+      />
+    )
+  }
+
+
   if (playersJoined < 2) {
 		return (
       <div>
@@ -44,7 +67,7 @@ const gamePage = () => {
       <div>
         <GameHeader userRecord={userRecord}/>
         <div className="trackBox">
-        <RaceTrack />
+        {raceTrackArray}
         </div>
       </div>
     )

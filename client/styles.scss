@@ -34,22 +34,21 @@
 .gameHeader {
   border-radius: 5px;
   border: 1px black solid;
-  padding: 10px;
+  padding: 4px;
   width: 230;
 }
 
-.trackBox {
+.raceTrack {
   border: 1px dashed black;
   border-top: none;
   border-left: none;
   border-right: none;
-  display: flex;
   width: 900px;
   margin: auto;
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .eevee {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
