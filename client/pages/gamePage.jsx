@@ -107,34 +107,51 @@ const gamePage = () => {
   }, [players[0].percentage, players[0].timeCompleted]);
 
   // sends user data for winner
+  // useEffect(() => {
+  //   if (players[0].percentage === 100 && players[0].winner === '') {
+  //     setPlayers([
+  //       ...players,
+  //       (players[0].winner = players[0].username),
+  //       (players[1].winner = players[0].username),
+  //     ]);
+
+  //     socket.emit('userWon', players[0].winner);
+  //     socket.on('opponentWon', data => {
+  //       console.log('opponentWon: ', data);
+  //       setPlayers([
+  //         ...players,
+  //         (players[0].winner = data),
+  //         (players[1].winner = data),
+  //       ]);
+  //     });
+  //   }
+  // }, [players[0].percentage]);
+
   useEffect(() => {
-    if (players[0].percentage === 100 && players[0].winner === '') {
+    if (players[0].percentage === 100 && players[1].percentage === 100) {
+      let winner =''
+      if (players[0].timeCompleted > players[1].timeCompleted) {
+        winner = players[0].username
+      } else {
+        winner = players[1].username
+      }
+      
       setPlayers([
         ...players,
-        (players[0].winner = players[0].username),
-        (players[1].winner = players[0].username),
+        (players[0].winner = winner),
+        (players[1].winner = winner),
       ]);
-
-      socket.emit('userWon', players[0].winner);
-      socket.on('opponentWon', data => {
-        console.log('opponentWon: ', data);
-        setPlayers([
-          ...players,
-          (players[0].winner = data),
-          (players[1].winner = data),
-        ]);
-      });
     }
-  }, [players[0].percentage]);
+  }, [players[0].percentage,players[1].percentage],);
 
-  socket.on('opponentWon', data => {
-    console.log('opponentWon: ', data);
-    setPlayers([
-      ...players,
-      (players[0].winner = data),
-      (players[1].winner = data),
-    ]);
-  });
+  // socket.on('opponentWon', data => {
+  //   console.log('opponentWon: ', data);
+  //   setPlayers([
+  //     ...players,
+  //     (players[0].winner = data),
+  //     (players[1].winner = data),
+  //   ]);
+  // });
 
   // get random eevees for raceTrack
   const eevees = [eevee, espeon, jolteon, leafeon, umbreon, vaporeon];
