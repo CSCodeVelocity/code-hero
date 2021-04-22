@@ -95,6 +95,7 @@ const gamePage = () => {
         pokemon={eevees[getRandom(0, 6)]}
         percentage={players[i].percentage}
         username={players[i].username}
+        key={players[i].username}
       />
     );
   }
