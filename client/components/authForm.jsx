@@ -1,20 +1,21 @@
-import React, { useReducer } from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
-import { authReducer, initialAuthState } from '../state/reducers';
+import React, { useContext } from 'react';
+import { AuthContext } from '../state/contexts.jsx';
 
 const authForm = (props) => {
-  console.log(props);
-  /* Accesing authState and authReducer */
-  const [authState, dispatch] = useReducer(authReducer, initialAuthState);
+  /* Accessing authState with useContext hook to update authState in handle functions below */
+  const authContext = useContext(AuthContext);
+  const { authDispatch, authState } = authContext;
 
+  /* Function for clicking Login button */
   const handleLogin = (e) => {
     e.preventDefault();
     /* Getting user input */
     const username = document.querySelector('#username').value;
     const password = document.querySelector('#pass').value;
 
-    if (!username || !password) return; // Need to add message to user for empty fields
-
+    if (!username || !password)
+      return alert('Username and password required...'); // Need to add message to user for empty fields
+    /* Send user inputted credentials to server to be checked against database */
     fetch('/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -25,24 +26,25 @@ const authForm = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log('RESPONSE: ', res);
         const { username, userId, success } = res;
-        // success === false ? do some state stuff and redirect back to login : route/redirect to /game with username and userId (also do some state stuffs)
+        // Should add message to notify user their login attempt has failed
         if (!success) return;
         else {
-          dispatch({
+          /* Login attempt successful: Update state and go to /game (GamePage) */
+          const isOnline = true;
+          authDispatch({
             type: 'LOGGED_IN',
             payload: {
               username: username,
               userId: userId,
-              isOnline: true,
+              isOnline,
             },
           });
           props.history.push('/game');
         }
       });
   };
-
+  /* Function for clicking Sign Up button */
   const handleSignUp = (e) => {
     e.preventDefault();
     /* Getting user input */
@@ -51,9 +53,9 @@ const authForm = (props) => {
     const passCheck = document.querySelector('#passcheck').value;
     /* Makes sure all fields have been inputted as well as checking if both passwords are the same */
     // Need to add message to user for empty fields
-    if (!username || !password || !passCheck || password !== passCheck) return;
-
-    fetch('/login', {
+    if (!username || !password || !passCheck) return alert('Form Incomplete');
+    else if (password !== passCheck) return alert('Passwords do not match...');
+    fetch('/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -68,7 +70,7 @@ const authForm = (props) => {
         // success === false ? do some state stuff and redirect back to signup : route/redirect to /game with username and userId (also do some state stuffs)
         if (!success) return;
         else {
-          dispatch({
+          authDispatch({
             type: 'LOGGED_IN',
             payload: {
               username: username,
@@ -85,11 +87,12 @@ const authForm = (props) => {
   const handleSwitch = (e) => {
     e.preventDefault;
     let signUp = '';
+    document.querySelector('#username').value = '';
+    document.querySelector('#pass').value = '';
     if (!authState.signUp) {
       signUp = true;
     } else signUp = false;
-
-    dispatch({
+    authDispatch({
       type: 'SET_SIGNUP',
       payload: {
         signUp,

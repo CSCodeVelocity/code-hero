@@ -9,6 +9,7 @@ export const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGGED_IN': {
       const { username, userId, isOnline } = action.payload;
+      console.log('LOGGED_IN ISONLINE: ', isOnline);
       return {
         ...state,
         username,

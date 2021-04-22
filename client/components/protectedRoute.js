@@ -1,13 +1,22 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from '../state/contexts.jsx';
 
-export const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const authContext = useContext(AuthContext);
+  const { authState } = authContext;
   return (
     <Route
       {...rest}
       render={(props) => {
-        return <Component {...props} />;
+        if (authState.isOnline) {
+          return <Component {...props} />;
+        } else {
+          return <Redirect to="/" />;
+        }
       }}
     />
   );
 };
+
+export default ProtectedRoute;
