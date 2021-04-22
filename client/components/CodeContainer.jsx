@@ -9,11 +9,15 @@ import { initialCodeState, codeReducer } from '../state/reducers.js';
 import CodeBlock from './CodeBlock.jsx';
 import CodeInput from './CodeInput.jsx';
 
-const CodeContainer = () => {
+const CodeContainer = props => {
   const [state, dispatch] = useReducerThunk(codeReducer, initialCodeState);
 
   const writeToCodeState = action => {
     dispatch(action);
+  };
+
+  const writeToPlayerState = data => {
+    const { playerState, setPlayerState } = props;
   };
 
   const fetchCodeBlock = path => {
@@ -40,6 +44,7 @@ const CodeContainer = () => {
         totalChars={state.totalChars}
         codeBlock={state.codeBlock}
         writeToCodeState={writeToCodeState}
+        writeToPlayerState={writeToPlayerState}
       />
     </div>
   );
