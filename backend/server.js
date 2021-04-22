@@ -47,8 +47,12 @@ app.use((err, req, res, next) => {
 io.on('connection', (client) => {
   console.log('players connected: ', io.engine.clientsCount);
 
-  client.broadcast.emit('test', io.engine.clientsCount);
   io.emit('playersJoined', io.engine.clientsCount);
+
+  client.on('userRecord', (data) => {
+    console.log('userRecord: ', data);
+    client.broadcast.emit('opponentRecord', data);
+  });
 });
 
 server.listen(PORT, () => console.log(`listening on port ${PORT}`));

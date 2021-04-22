@@ -20,23 +20,3 @@ export const gameReducer = (state, action) => {
       };
   }
 };
-
-export const initialStartGameState = {
-  gameStart: false,
-  playersJoined: 1,
-};
-
-export const startGameReducer = (state, action) => {
-  switch (action.type) {
-    case 'UPDATE_GAME':
-      return {
-        ...state,
-        gameStart: action.payload.gameStart,
-      };
-    case 'UPDATE_PLAYERS':
-      return {
-        ...state,
-        playersJoined: action.payload.playersJoined,
-      };
-  }
-};
