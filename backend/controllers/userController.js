@@ -2,6 +2,56 @@ const db = require('../models/models.js');
 
 const userController = {};
 
+userController.createUser = (req, res, next) => {
+  const { username, password } = req.body;
+  const userValues = [
+    username,
+    password,
+  ];
+
+  const query = 'INSERT INTO public."Users" VALUES (DEFAULT, $1, $2) RETURNING *';
+
+  db.query(query, userValues, (err, result) => {
+    if (err) {
+      return next({
+        log: 'userController.createUser failed',
+        message: { err: 'failed to add user to database' },
+      });
+    }
+    console.log('result', result.rows[0]);
+    if (result.rows.length === 0) {
+      res.locals.success = false;
+      return next();
+    }
+    res.locals.id = result.rows[0].id;
+    res.locals.username = result.rows[0].username;
+    return next();
+  });
+};
+
+userController.logGame = (req, res, next) => {
+  const { gameId, userId, time } = req.body;
+  const gameValues = [
+    gameId,
+    userId,
+    time,
+  ];
+
+  const query = 'INSERT INTO public."Users_Games" VALUES (DEFAULT, $1, $2, $3) RETURNING *';
+
+  db.query(query, gameValues, (err, result) => {
+    if (err) {
+      return next({
+        log: 'userController.logGame failed',
+        message: { err: 'failed to log game data' },
+      });
+    }
+    console.log('result.rows', result.rows)
+    res.locals.id = result.rows[0].id;
+    return next();
+  });
+};
+
 userController.getWins = (req, res, next) => {
   const idParam = [
     req.params.id,
