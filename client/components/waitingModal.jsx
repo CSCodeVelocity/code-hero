@@ -1,7 +1,6 @@
-import React, {useState} from "react"
-import ReactDOM from "react-dom"
+import React from "react"
 
-const Modal = ({playersJoined}) => {
+const WaitingModal = ({playersJoined}) => {
 	if (playersJoined < 2) {
 		return (
 			<div className="modal">
@@ -15,7 +14,7 @@ const Modal = ({playersJoined}) => {
 				</div>
 			</div>
 		)
-	} 
+	}
 }
 
-export default Modal;
+export default WaitingModal;
