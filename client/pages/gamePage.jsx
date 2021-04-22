@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import Modal from '../components/modal.jsx'
+import GameOverModal from '../components/gameOverModal.jsx'
 import GameHeader from '../components/gameHeader.jsx'
 import RaceTrack from '../components/raceTrack.jsx'
 import { AuthContext } from '../state/contexts.jsx';
@@ -20,6 +21,14 @@ const gamePage = () => {
   const [playersJoined, setPlayersJoined] = useState(1);
   const [userRecord, setUserRecord] = useState({wins:0,losses:0})
   const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}])
+  const [gameOver, setGameOver] = useState(true)
+
+  // check for gameOver
+  useEffect(() => {
+    if (players[0].percentage === 100 && players[1].percentage === 100) {
+      setGameOver(true)
+    }
+  }, [players[0].percentage,players[1].percentage])
 
   // update players[0]'s username to username from authState
   useEffect(() => {
@@ -75,6 +84,8 @@ const gamePage = () => {
         pokemon={eevees[getRandom(0,6)]}
         percentage={players[i].percentage}
         username={players[i].username}
+        gameOver={gameOver}
+        players={players}
       />
     )
   }
@@ -96,6 +107,18 @@ const gamePage = () => {
       </div>
     )
   }
+  // } else {
+  //   return (
+  //     <div>
+  //       <GameHeader userRecord={userRecord} username={players[0].username} />
+  //       <div className="trackBox">
+  //       {raceTrackArray}
+  //       </div>
+  //       <GameOverModal />
+  //     </div>
+
+  //   )
+  // }
 }
 
 export default gamePage;
