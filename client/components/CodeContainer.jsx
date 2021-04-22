@@ -11,6 +11,7 @@ import CodeInput from './CodeInput.jsx';
 
 const CodeContainer = props => {
   const [state, dispatch] = useReducerThunk(codeReducer, initialCodeState);
+  const { codeBlockId, setCodeBlockId } = props;
 
   const writeToCodeState = action => {
     dispatch(action);
@@ -30,8 +31,9 @@ const CodeContainer = props => {
       console.log('data from server', data);
       dispatch({
         type: CODEBLOCK_SUCCEED,
-        payload: { codeBlock: data.codeBlock },
+        payload: { codeBlock: data.text },
       });
+      setCodeBlockId(data.id);
     });
   };
 

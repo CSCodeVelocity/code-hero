@@ -1,3 +1,4 @@
 {
-  "codeBlock": "const something = (doesNot) => {\n  smellRight();\n  return 'things';\n}"
+  "id": 123,
+  "text": "const something = (doesNot) => {\n  smellRight();\n  return 'things';\n}"
 }
