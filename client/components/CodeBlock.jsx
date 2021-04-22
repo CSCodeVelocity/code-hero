@@ -37,7 +37,7 @@ const CodeBlock = props => {
         lineWrapping: true,
         maxHighlightLength: Infinity,
         tabSize: 2,
-        readOnly: false,
+        readOnly: true,
       }}
     />
   );
