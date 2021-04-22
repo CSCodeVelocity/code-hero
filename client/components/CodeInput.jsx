@@ -7,7 +7,14 @@ import 'codemirror/theme/gruvbox-dark.css';
 import 'codemirror/mode/javascript/javascript.js';
 
 const CodeInput = props => {
-  const { codeBlock, writeToCodeState, correctChars, totalChars } = props;
+  const {
+    codeBlock,
+    writeToCodeState,
+    writeToPlayersState,
+    playersState,
+    correctChars,
+    totalChars,
+  } = props;
 
   const grabCmCode = e => {
     const content = e.display.view
@@ -24,7 +31,13 @@ const CodeInput = props => {
   };
 
   const computePerc = (numerator, denominator) => {
-    return Math.floor(100 * (correctChars / totalChars));
+    return Math.floor(100 * (numerator / denominator));
+  };
+
+  const handlePercUpdate = e => {
+    e.persist;
+    const perc = computePerc(correctChars, totalChars);
+    writeToPlayersState({ percentage: perc });
   };
 
   return (

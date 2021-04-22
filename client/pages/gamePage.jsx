@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import CodeContainer from '../components/CodeContainer.jsx';
 import Modal from '../components/modal.jsx';
 import GameHeader from '../components/gameHeader.jsx';
 import RaceTrack from '../components/raceTrack.jsx';
@@ -112,6 +113,7 @@ const gamePage = () => {
       <div>
         <GameHeader userRecord={userRecord} username={players[0].username} />
         <div className="trackBox">{raceTrackArray}</div>
+        <CodeContainer playersState={players} setPlayersState={setPlayers} />
       </div>
     );
   }

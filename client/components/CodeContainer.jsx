@@ -16,8 +16,11 @@ const CodeContainer = props => {
     dispatch(action);
   };
 
-  const writeToPlayerState = data => {
-    const { playerState, setPlayerState } = props;
+  const writeToPlayersState = data => {
+    const { playersState, setPlayersState } = props;
+    const thing = [...playersState];
+    thing[0].percentage = data.percentage;
+    setPlayersState([...thing]);
   };
 
   const fetchCodeBlock = path => {
@@ -44,7 +47,7 @@ const CodeContainer = props => {
         totalChars={state.totalChars}
         codeBlock={state.codeBlock}
         writeToCodeState={writeToCodeState}
-        writeToPlayerState={writeToPlayerState}
+        writeToPlayersState={writeToPlayersState}
       />
     </div>
   );
