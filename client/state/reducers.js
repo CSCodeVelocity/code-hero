@@ -1,3 +1,4 @@
+import { correctlyTypedChars } from '../utils/compare.js';
 import * as actionTypes from './actions.js';
 
 /* Reducers for authentication */
@@ -54,11 +55,30 @@ export const gameReducer = (state, action) => {
 
 export const initialCodeState = {
   codeBlock: '', // fetched from server
-  codeInput: '',
+  codeBlockCm: [],
+  codeInputCm: [],
+  codeBlockStringified: '',
+  codeInputStringified: '',
+  correctChars: 0,
+  totalChars: 0,
 };
 export const codeReducer = (state, action) => {
+  console.log('action in reducer', action);
+  console.log('current state', state);
   if (action.type === actionTypes.CODEINPUT_INPUT_CODE) {
-    return { ...state, ...action.payload };
+    const { codeInputStringified } = action.payload;
+    const { codeBlockStringified } = state;
+    const correctChars = correctlyTypedChars(
+      codeBlockStringified,
+      codeInputStringified,
+      state.correctChars
+    );
+    const updates = {
+      codeInputStringified,
+      correctChars,
+    };
+
+    return { ...state, ...updates };
   }
   if (action.type === actionTypes.CODEBLOCK_REQUEST) {
     return { ...state, ...action.payload };
@@ -68,6 +88,14 @@ export const codeReducer = (state, action) => {
   }
   if (action.type === actionTypes.CODEBLOCK_FAIL) {
     return { ...state, ...action.payload };
+  }
+  if (action.type === actionTypes.CODEBLOCK_WRITE_TO_BOX) {
+    const { codeBlockStringified, newLineCount } = action.payload;
+    const updates = {
+      codeBlockStringified,
+      totalChars: codeBlockStringified.length - newLineCount,
+    };
+    return { ...state, ...updates };
   }
   return state;
 };
