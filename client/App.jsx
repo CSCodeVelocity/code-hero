@@ -10,7 +10,7 @@ const App = () => {
   const [authState, authDispatch] = useReducer(authReducer, initialAuthState);
   return (
     <div className="App">
-      <h1>Protected React Router</h1>
+      {/* <h1>Protected React Router</h1> */}
       <Router>
         <AuthContext.Provider
           value={{ authState: authState, authDispatch: authDispatch }}
