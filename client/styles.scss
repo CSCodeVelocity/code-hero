@@ -52,3 +52,38 @@
   width: 40px;
   height: 40px;
 }
+
+.authPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #ffcc70 0%,
+    #5c1e6d 46%,
+    #4158d0 100%
+  );
+  align-items: center;
+  height: 100%;
+
+  div {
+    color: white;
+  }
+
+  .authForm {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    border-radius: 0px;
+    background: #4158d0;
+    box-shadow: -5px 5px 100px #4057ce, 5px -5px 100px #4259d2;
+    padding: 15px;
+
+    button {
+      border-radius: 56px;
+      background: #ffcc70;
+      box-shadow: -8px 8px 16px #917440, 8px -8px 16px #ffffa0;
+    }
+  }
+}
