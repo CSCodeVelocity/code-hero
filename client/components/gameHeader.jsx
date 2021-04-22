@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 
-const gameHeader = () => {
+const gameHeader = ({userRecord}) => {
 	return (
 		<div className='gameHeader'>
 			<div>Username:</div>
-			<div>Win/Loss Record:</div>
+			<div>Win/Loss Record: {userRecord.wins} - {userRecord.losses}</div>
 		</div>
 	)
 }

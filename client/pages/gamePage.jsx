@@ -1,4 +1,4 @@
-import React, {useState, useReducer} from 'react';
+import React, {useState, useReducer, useEffect} from 'react';
 import StartModal from '../components/startModal.jsx'
 import Modal from '../components/modal.jsx'
 import GameHeader from '../components/gameHeader.jsx'
@@ -8,6 +8,14 @@ import {initialStartGameState, startGameReducer} from '../state/reducers'
 const gamePage = () => {
   // const [playersJoined, setPlayersJoined] = useState(1);
   const [userRecord, setUserRecord] = useState({wins:0,losses:0})
+  useEffect(()=> {
+    fetch('/users/1')
+      .then(res=> res.json())
+      .then(data => setUserRecord(data))
+  }, [])
+
+  console.log('userRecord:', userRecord)
+
   const [startGameState, startGameDispatch] = useReducer(startGameReducer, initialStartGameState)
   const {playersJoined, gameStart} = startGameState
   socket.on('playersJoined', (num)=>startGameDispatch({
@@ -30,7 +38,7 @@ const gamePage = () => {
   } else {
     return (
       <div>
-        <GameHeader />
+        <GameHeader userRecord={userRecord}/>
       </div>
     )
   }
