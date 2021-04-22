@@ -98,6 +98,32 @@ userController.getTotalGames = (req, res, next) => {
   });
 };
 
+userController.getTop3Times = (req, res, next) => {
+  const idParam = [
+    req.params.codeBlockId,
+  ];
+  const query = `
+    SELECT public."Users".username, public."Users_Games".time FROM public."Users" LEFT JOIN public."Users_Games" WHERE public."Users".id IN
+    (SELECT time, user_id FROM public."Users_Games" WHERE game_id IN 
+    (SELECT id FROM public."Games" WHERE code_block_id = $1))
+    ORDER BY time LIMIT 3
+    
+    `;
+    // public."Users" JOIN public."Users_Games".user_id = public."Users".id
+
+  db.query(query, idParam, (err, result) => {
+    if (err) {
+      return next({
+        log: err.message,
+        message: { err: 'failed to find top 3 times' },
+      });
+    }
+    console.log('result rows from query', result.rows);
+    res.locals.gameData = result.rows;
+    return next();
+  });
+};
+
 // this function verifies that the user exists in the database and sends back their id, username,
 // and success boolean
 userController.verifyUser = (req, res, next) => {

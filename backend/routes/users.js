@@ -7,8 +7,8 @@ router.get('/:id', userController.getWins, userController.getTotalGames, (req, r
   res.status(200).json(res.locals);
 });
 
-router.get('/userdata/:codeblockId', userController.getTop3Times, (req, res) => {
-  res.status(200).json(res.locals);
+router.get('/userdata/:codeBlockId', userController.getTop3Times, (req, res) => {
+  res.status(200).json(res.locals.gameData);
 });
 
 router.post('/signup', userController.createUser, (req, res) => {
@@ -20,7 +20,5 @@ router.post('/games', userController.logGame, (req, res) => {
 });
 
 router.post('/login', userController.verifyUser, (req, res) => res.status(200).json(res.locals));
-
-
 
 module.exports = router;
