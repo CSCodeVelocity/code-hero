@@ -12,6 +12,9 @@ const io = require('socket.io')(server);
 
 const PORT = 3000;
 
+// serves the static example codeblock TO REMOVE AFTER DB HAS CODEBLOCKS
+app.use(express.static('data'));
+
 // handle incoming json
 app.use(express.json());
 
@@ -51,6 +54,16 @@ io.on('connection', (client) => {
   client.on('userRecord', (data) => {
     console.log('userRecord: ', data);
     client.broadcast.emit('opponentRecord', data);
+  });
+
+  client.on('userScore', (data) => {
+    // console.log('userScore: ', data);
+    client.broadcast.emit('opponentScore', data);
+  });
+
+  client.on('userWon', (data) => {
+    console.log('userWon: ', data);
+    client.broadcast.emit('opponentWon', data);
   });
 });
 
