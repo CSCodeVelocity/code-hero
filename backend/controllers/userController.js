@@ -9,12 +9,14 @@ userController.createUser = (req, res, next) => {
     password,
   ];
 
+  let success = false;
+
   const query = 'INSERT INTO public."Users" VALUES (DEFAULT, $1, $2) RETURNING *';
 
   db.query(query, userValues, (err, result) => {
     if (err) {
       return next({
-        log: 'userController.createUser failed',
+        log: err.message,
         message: { err: 'failed to add user to database' },
       });
     }
@@ -23,8 +25,10 @@ userController.createUser = (req, res, next) => {
       res.locals.success = false;
       return next();
     }
-    res.locals.id = result.rows[0].id;
+    success = true;
+    res.locals.userId = result.rows[0].id;
     res.locals.username = result.rows[0].username;
+    res.locals.success = success;
     return next();
   });
 };
