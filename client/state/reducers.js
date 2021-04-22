@@ -63,7 +63,6 @@ export const initialCodeState = {
   totalChars: 0,
 };
 export const codeReducer = (state, action) => {
-  console.log('action in reducer', action);
   console.log('current state', state);
   if (action.type === actionTypes.CODEINPUT_INPUT_CODE) {
     const { codeInputStringified } = action.payload;
