@@ -22,16 +22,16 @@ export const gameReducer = (state, action) => {
 };
 
 export const initialStartGameState = {
-  countDown: 5,
+  gameStart: false,
   playersJoined: 1,
 };
 
 export const startGameReducer = (state, action) => {
   switch (action.type) {
-    case 'COUNT_DOWN':
+    case 'UPDATE_GAME':
       return {
         ...state,
-        countDown: action.payload.countDown,
+        gameStart: action.payload.gameStart,
       };
     case 'UPDATE_PLAYERS':
       return {

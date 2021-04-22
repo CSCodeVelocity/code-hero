@@ -8,7 +8,7 @@ const startModal = ({playersJoined, setPlayersJoined}) => {
 
 	if (playersJoined < 2) {
 		return (
-			<div className='modals'>
+			<div className='modal'>
 				<div className='modalText'>Waiting for players to join: {playersJoined}</div>
 			</div>
 		)
