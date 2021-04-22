@@ -27,19 +27,25 @@ const CodeBlock = props => {
   }, []);
 
   return (
-    <CodeMirror
-      value={codeBlock}
-      onUpdate={grabCmCode}
-      options={{
-        mode: 'javascript',
-        theme: 'gruvbox-dark',
-        lineNumbers: true,
-        lineWrapping: true,
-        maxHighlightLength: Infinity,
-        tabSize: 2,
-        readOnly: true,
+    <div
+      style={{
+        border: '2px solid red',
       }}
-    />
+    >
+      <CodeMirror
+        value={codeBlock}
+        onUpdate={grabCmCode}
+        options={{
+          mode: 'javascript',
+          theme: 'gruvbox-dark',
+          lineNumbers: true,
+          lineWrapping: true,
+          maxHighlightLength: Infinity,
+          tabSize: 2,
+          readOnly: true,
+        }}
+      />
+    </div>
   );
 };
 

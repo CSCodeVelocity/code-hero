@@ -36,7 +36,7 @@ const CodeContainer = props => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <CodeBlock
         codeBlock={state.codeBlock}
         fetchCodeBlock={fetchCodeBlock}
