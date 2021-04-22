@@ -27,7 +27,6 @@ const CodeInput = props => {
       type: CODEINPUT_INPUT_CODE,
       payload: { codeInputStringified: content },
     });
-    console.log(e);
   };
 
   const computePerc = (numerator, denominator) => {
