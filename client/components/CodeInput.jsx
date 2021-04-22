@@ -41,7 +41,14 @@ const CodeInput = props => {
   };
 
   return (
-    <div data-percent={Math.floor(100 * (correctChars / totalChars))}>
+    <div
+      data-percent={computePerc(correctChars, totalChars)}
+      onKeyUp={handlePercUpdate}
+      style={{
+        border: '2px solid red',
+        marginTop: '15px',
+      }}
+    >
       <CodeMirror
         onUpdate={grabCmCode}
         options={{
