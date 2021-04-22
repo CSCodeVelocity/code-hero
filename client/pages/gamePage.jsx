@@ -89,7 +89,7 @@ const gamePage = () => {
   } else {
     return (
       <div>
-        <GameHeader userRecord={userRecord}/>
+        <GameHeader userRecord={userRecord} username={players[0].username} />
         <div className="trackBox">
         {raceTrackArray}
         </div>

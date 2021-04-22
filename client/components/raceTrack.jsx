@@ -4,7 +4,7 @@ import leafeon from '../assets/leafeon.png'
 
 
 const raceTrack = ({pokemon, percentage, username}) => {
-  // percentage = 100;
+  // percentage = 50;
   const distance = percentage/100*850
   return (
     <div className="raceTrack">
