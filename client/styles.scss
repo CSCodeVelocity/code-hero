@@ -37,3 +37,19 @@
   padding: 10px;
   width: 230;
 }
+
+.trackBox {
+  border: 1px dashed black;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  width: 900px;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.eevee {
+  width: 50px;
+  height: 50px;
+}

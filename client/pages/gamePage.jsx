@@ -1,6 +1,7 @@
 import React, {useState, useReducer, useEffect} from 'react';
 import Modal from '../components/modal.jsx'
 import GameHeader from '../components/gameHeader.jsx'
+import RaceTrack from '../components/raceTrack.jsx'
 import socket from '../utils/socket'
 
 const gamePage = () => {
@@ -32,9 +33,6 @@ const gamePage = () => {
     })
   }, [userRecord])
 
-  
-
-
   if (playersJoined < 2) {
 		return (
       <div>
@@ -45,6 +43,9 @@ const gamePage = () => {
     return (
       <div>
         <GameHeader userRecord={userRecord}/>
+        <div className="trackBox">
+        <RaceTrack />
+        </div>
       </div>
     )
   }
