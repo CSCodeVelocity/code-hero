@@ -6,7 +6,6 @@ const gameRouter = require('./routes/games');
 
 const app = express();
 const http = require('http');
-const { Client } = require('pg');
 const server = http.createServer(app);
 const io = require('socket.io')(server);
 const PORT = 3000;
