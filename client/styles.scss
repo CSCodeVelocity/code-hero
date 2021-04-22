@@ -37,6 +37,21 @@
   border: 1px black solid;
   padding: 4px;
   width: 230;
+  height: 40px;
+  display: inline-block;
+}
+
+.clock {
+  border-radius: 5px;
+  border: 1px black solid;
+  padding: 4px;
+  width: 230;
+  height: 40px;
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  line-height: 40px;
 }
 
 .raceTrack {
