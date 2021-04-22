@@ -1,0 +1,3 @@
+{
+  "codeBlock": "const something = (doesNot) => {\n  smellRight();\n  return 'things';\n}"
+}
