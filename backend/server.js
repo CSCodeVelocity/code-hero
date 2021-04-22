@@ -47,7 +47,9 @@ app.use((err, req, res, next) => {
 io.on('connection', (client) => {
   console.log('players connected: ', io.engine.clientsCount);
 
-  io.emit('playersJoined', io.engine.clientsCount);
+  client.on('playersJoined', () => {
+    io.emit('playersJoined', io.engine.clientsCount);
+  });
 
   client.on('userRecord', (data) => {
     console.log('userRecord: ', data);

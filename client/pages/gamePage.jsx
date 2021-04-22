@@ -28,9 +28,14 @@ const gamePage = () => {
     setPlayers([...players, players[0].totalWins = userRecord.wins])
     setPlayers([...players, players[0].totalLosses = userRecord.losses])
   }, [userRecord])
+  
+  useEffect(()=> {
+    socket.emit('playersJoined')
+  },[])
 
   // listening for playersJoined
   socket.on('playersJoined', (data)=>setPlayersJoined(data))
+  console.log('playersJoined: ', playersJoined)
 
   console.log('players:', players)
 
