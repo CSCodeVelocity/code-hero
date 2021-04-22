@@ -105,6 +105,8 @@ const authForm = (props) => {
   if (!authState.signUp) {
     return (
       <div className="authForm">
+        <h1 className="codehero">Code Hero</h1>
+        <br></br>
         <input id="username" type="text" placeholder="Username"></input>
         <br></br>
         <input id="pass" type="password" placeholder="Password"></input>
@@ -120,6 +122,8 @@ const authForm = (props) => {
   } else {
     return (
       <div className="authForm">
+        <h1 className="codehero">Code Hero</h1>
+        <br></br>
         <input id="username" type="text" placeholder="Username"></input>
         <br></br>
         <input id="pass" type="password" placeholder="Password"></input>
