@@ -18,13 +18,13 @@ const gameOverModal = ({players}) => {
 						<h4 className="modal-title">CodeBlock high scores:</h4>
 					</div>
 					<div className="modal-body">
-						sara - 6s
+						sara - 12s
 					</div>
 					<div className="modal-body">
-						sam - 12s
+						sam - 15s
 					</div>
 					<div className="modal-body">
-						sam2 - 13s
+						sam2 - 15s
 					</div>
 				</div>
 			</div>
