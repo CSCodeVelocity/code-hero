@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import socket from '../utils/socket'
 
-
+// currently not being used
 const startModal = ({playersJoined, setPlayersJoined}) => {
 	socket.on('playersJoined', (num)=>setPlayersJoined(num))
 	const [countDown, setCountDown] = useState(5)
