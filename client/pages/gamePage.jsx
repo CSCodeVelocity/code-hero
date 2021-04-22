@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import CodeContainer from '../components/CodeContainer.jsx';
-import Modal from '../components/modal.jsx';
+import WaitingModal from '../components/waitingModal.jsx';
 import GameHeader from '../components/gameHeader.jsx';
 import RaceTrack from '../components/raceTrack.jsx';
 import { AuthContext } from '../state/contexts.jsx';
@@ -20,8 +20,8 @@ const gamePage = () => {
 
   const [playersJoined, setPlayersJoined] = useState(1);
   const [userRecord, setUserRecord] = useState({wins:0,losses:0})
-  const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}])
-  const [gameOver, setGameOver] = useState(true)
+  const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0, winner:''}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0, winner:''}])
+  const [gameOver, setGameOver] = useState(false)
 
   // check for gameOver
   useEffect(() => {
@@ -75,6 +75,45 @@ const gamePage = () => {
     });
   }, [userRecord, players[1].username]);
 
+  // sends user data for other player to update player2's percentage and timeCompleted
+  useEffect(() => {
+    socket.emit('userScore', players[0]);
+    socket.on('opponentScore', data => {
+      console.log('opponentScore: ', data);
+      setPlayers([
+        ...players,
+        (players[1].percentage = data.percentage),
+        (players[1].timeCompleted = data.timeCompleted),
+      ]);
+    });
+  }, [players[0].percentage, players[0].timeCompleted]);
+
+  // sends user data for winner
+  useEffect(() => {
+    if (players[0].percentage === 100 && players[0].winner ==='') {
+      setPlayers([...players, (players[0].winner = players[0].username),(players[1].winner = players[0].username)])
+    
+      socket.emit('userWon', players[0].winner);
+      socket.on('opponentWon', data => {
+        console.log('opponentWon: ', data);
+        setPlayers([
+          ...players,
+          (players[0].winner = data),
+          (players[1].winner = data),
+        ]);
+      });
+    }
+  }, [players[0].percentage]);
+
+  socket.on('opponentWon', data => {
+    console.log('opponentWon: ', data);
+    setPlayers([
+      ...players,
+      (players[0].winner = data),
+      (players[1].winner = data),
+    ]);
+  });
+
   // get random eevees for raceTrack
   const eevees = [eevee, espeon, jolteon, leafeon, umbreon, vaporeon];
 
@@ -100,7 +139,7 @@ const gamePage = () => {
   if (playersJoined < 2) {
     return (
       <div>
-        <Modal playersJoined={playersJoined} />
+        <WaitingModal playersJoined={playersJoined} />
       </div>
     );
   } else {

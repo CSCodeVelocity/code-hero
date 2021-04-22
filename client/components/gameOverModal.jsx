@@ -5,7 +5,7 @@ const gameOverModal = ({players}) => {
 			<div className="modal">
 				<div className="modal-content">
 					<div className="modal-header">
-						<h4 className="modal-title">Game Over! 'User' won!</h4>
+						<h4 className="modal-title">Game Over! {players[0].winner} won!</h4>
 					</div>
 					<div className="modal-body">
 						{players[0].username} - {players[0].timeCompleted}s W/L: {players[0].totalWins}-{players[0].totalLosses}
