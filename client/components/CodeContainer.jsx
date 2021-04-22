@@ -36,7 +36,8 @@ const CodeContainer = () => {
         writeToCodeState={writeToCodeState}
       />
       <CodeInput
-        state={state}
+        correctChars={state.correctChars}
+        totalChars={state.totalChars}
         codeBlock={state.codeBlock}
         writeToCodeState={writeToCodeState}
       />
