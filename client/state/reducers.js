@@ -10,7 +10,6 @@ export const authReducer = (state, action) => {
     /* When user login is successful, here we update that data for the game to render and fetch other user data */
     case 'LOGGED_IN': {
       const { username, userId, isOnline } = action.payload;
-      console.log('LOGGED_IN ISONLINE: ', isOnline);
       return {
         ...state,
         username,
@@ -21,7 +20,6 @@ export const authReducer = (state, action) => {
     /* When a new user successfully signs up, here we update user data (just as above) and change signUp to false which renders the login form*/
     case 'SIGNED_UP': {
       const { username, userId, isOnline, signUp } = action.payload;
-      console.log('SIGNED_UP SIGNUP: ', signUp);
       return {
         ...state,
         username,
