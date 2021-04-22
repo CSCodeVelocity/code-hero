@@ -1,7 +1,8 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Modal from '../components/modal.jsx'
 import GameHeader from '../components/gameHeader.jsx'
 import RaceTrack from '../components/raceTrack.jsx'
+import { AuthContext } from '../state/contexts.jsx';
 import socket from '../utils/socket'
 import jolteon from '../assets/jolteon.jpeg'
 import leafeon from '../assets/leafeon.png'
@@ -11,14 +12,26 @@ import umbreon from '../assets/umbreon.jpeg'
 import vaporeon from '../assets/vaporeon.jpeg'
 
 const gamePage = () => {
+  // get access to username and userId
+  const authContext = useContext(AuthContext);
+  const {authState} = authContext;
+  const {username, userId} = authState;
+
   const [playersJoined, setPlayersJoined] = useState(1);
   const [userRecord, setUserRecord] = useState({wins:0,losses:0})
   const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0}])
 
+  // update players[0]'s username to username from authState
+  useEffect(() => {
+    setPlayers([...players, players[0].username = username])
+  }, [])
+
+  console.log(players)
+
   // get userRecord on initial mount
   useEffect(() => {
     // to update to feed user id from state
-    fetch('/users/1')
+    fetch(`/users/${userId}`)
       .then(res=> res.json())
       .then(data => setUserRecord(data))
   }, [])
@@ -39,14 +52,14 @@ const gamePage = () => {
 
   console.log('players:', players)
 
-  // sends user data for other player to update player2's wins and losses
+  // sends user data for other player to update player2's wins and losses, depends on players[1].username changing so second player to log in will trigger first player to emit user info
   useEffect(() => {
     socket.emit('userRecord', players[0])
     socket.on('opponentRecord', data=>{
       console.log('opponentRecord: ', data)
-      setPlayers([...players, players[1].totalWins = data.totalWins, players[1].totalLosses = data.totalLosses])
+      setPlayers([...players, players[1].username = data.username, players[1].totalWins = data.totalWins, players[1].totalLosses = data.totalLosses])
     })
-  }, [userRecord])
+  }, [userRecord, players[1].username])
 
   // get random eevees for raceTrack
   const eevees = [eevee, espeon, jolteon, leafeon, umbreon, vaporeon]
