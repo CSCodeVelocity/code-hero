@@ -145,7 +145,14 @@ const gamePage = () => {
   } else {
     return (
       <div>
-        <GameHeader userRecord={userRecord} username={players[0].username} />
+        <GameHeader
+          userRecord={userRecord}
+          username={players[0].username}
+          timeCompleted={players[0].timeCompleted}
+          percentage={players[0].percentage}
+          playersState={players}
+          setPlayersState={setPlayers}
+        />
         <div className="trackBox">{raceTrackArray}</div>
         <CodeContainer playersState={players} setPlayersState={setPlayers} />
       </div>
