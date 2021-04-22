@@ -16,7 +16,7 @@ const authForm = (props) => {
     if (!username || !password)
       return alert('Username and password required...'); // Need to add message to user for empty fields
     /* Send user inputted credentials to server to be checked against database */
-    fetch('/login', {
+    fetch('/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -55,7 +55,7 @@ const authForm = (props) => {
     // Need to add message to user for empty fields
     if (!username || !password || !passCheck) return alert('Form Incomplete');
     else if (password !== passCheck) return alert('Passwords do not match...');
-    fetch('/signup', {
+    fetch('/users/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
