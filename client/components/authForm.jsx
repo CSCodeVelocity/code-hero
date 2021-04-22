@@ -66,7 +66,6 @@ const authForm = (props) => {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log('RESPONSE: ', res);
         const { username, userId, success } = res;
         // success === false ? do some state stuff and redirect back to signup : route/redirect to /game with username and userId (also do some state stuffs)
         if (!success) return;
