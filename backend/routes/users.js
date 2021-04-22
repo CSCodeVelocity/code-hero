@@ -7,6 +7,10 @@ router.get('/:id', userController.getWins, userController.getTotalGames, (req, r
   res.status(200).json(res.locals);
 });
 
+router.get('/userdata/:codeBlockId', userController.getTop3Times, userController.getTop3Users, (req, res) => {
+  res.status(200).json(res.locals.gameData);
+});
+
 router.post('/signup', userController.createUser, (req, res) => {
   res.status(200).json(res.locals);
 });

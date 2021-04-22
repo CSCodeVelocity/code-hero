@@ -6,8 +6,10 @@ const gameRouter = require('./routes/games');
 
 const app = express();
 const http = require('http');
+
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+
 const PORT = 3000;
 
 // serves the static example codeblock TO REMOVE AFTER DB HAS CODEBLOCKS
@@ -20,12 +22,8 @@ app.use(express.json());
 app.use('/build', express.static(path.join(__dirname, '../build')));
 
 // serve html
-app.get('/', (req, res) =>
-  res.status(200).sendFile(path.join(__dirname, '../index.html'))
-);
-app.get('/game', (req, res) =>
-  res.status(200).sendFile(path.join(__dirname, '../index.html'))
-);
+app.get('/', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
+app.get('/game', (req, res) => res.status(200).sendFile(path.join(__dirname, '../index.html')));
 
 // api routes
 app.use('/users', userRouter);
@@ -42,7 +40,7 @@ app.use((err, req, res, next) => {
     status: 500,
     message: { err: 'An error occurred' },
   };
-  const errorObj = Object.assign({}, defaultErr, err);
+  const errorObj = { ...defaultErr, ...err };
   return res.status(errorObj.status).json(errorObj.log);
 });
 
