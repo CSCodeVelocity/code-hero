@@ -19,16 +19,34 @@ const gamePage = () => {
   const { username, userId } = authState;
 
   const [playersJoined, setPlayersJoined] = useState(1);
-  const [userRecord, setUserRecord] = useState({wins:0,losses:0})
-  const [players, setPlayers] = useState([{username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0, winner:''}, {username:'',percentage:0,timeCompleted:0,totalWins:0,totalLosses:0, winner:''}])
-  const [gameOver, setGameOver] = useState(false)
+  const [userRecord, setUserRecord] = useState({ wins: 0, losses: 0 });
+  const [players, setPlayers] = useState([
+    {
+      username: '',
+      percentage: 0,
+      timeCompleted: 0,
+      totalWins: 0,
+      totalLosses: 0,
+      winner: '',
+    },
+    {
+      username: '',
+      percentage: 0,
+      timeCompleted: 0,
+      totalWins: 0,
+      totalLosses: 0,
+      winner: '',
+    },
+  ]);
+  const [gameOver, setGameOver] = useState(false);
+  const [codeBlockId, setCodeBlockId] = useState(1);
 
   // check for gameOver
   useEffect(() => {
     if (players[0].percentage === 100 && players[1].percentage === 100) {
-      setGameOver(true)
+      setGameOver(true);
     }
-  }, [players[0].percentage,players[1].percentage])
+  }, [players[0].percentage, players[1].percentage]);
 
   // update players[0]'s username to username from authState
   useEffect(() => {
@@ -90,9 +108,13 @@ const gamePage = () => {
 
   // sends user data for winner
   useEffect(() => {
-    if (players[0].percentage === 100 && players[0].winner ==='') {
-      setPlayers([...players, (players[0].winner = players[0].username),(players[1].winner = players[0].username)])
-    
+    if (players[0].percentage === 100 && players[0].winner === '') {
+      setPlayers([
+        ...players,
+        (players[0].winner = players[0].username),
+        (players[1].winner = players[0].username),
+      ]);
+
       socket.emit('userWon', players[0].winner);
       socket.on('opponentWon', data => {
         console.log('opponentWon: ', data);
@@ -154,7 +176,12 @@ const gamePage = () => {
           setPlayersState={setPlayers}
         />
         <div className="trackBox">{raceTrackArray}</div>
-        <CodeContainer playersState={players} setPlayersState={setPlayers} />
+        <CodeContainer
+          playersState={players}
+          setPlayersState={setPlayers}
+          codeBlockId={codeBlockId}
+          setCodeBlockId={setCodeBlockId}
+        />
       </div>
     );
   }
