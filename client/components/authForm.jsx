@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../state/contexts.jsx';
+import { Redirect } from 'react-router-dom';
 
 const authForm = (props) => {
   /* Accessing authState with useContext hook to update authState in handle functions below */
@@ -71,16 +72,18 @@ const authForm = (props) => {
         if (!success) return;
         else {
           authDispatch({
-            type: 'LOGGED_IN',
+            type: 'SIGNED_UP',
             payload: {
               username: username,
               userId: userId,
               isOnline: true,
+              signUp: false,
             },
           });
-          props.history.push('/game');
+          //props.history.push('/game');
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
 
   /* Changes authState.signUp to opposite value thus rendering a different form due to logic below */
