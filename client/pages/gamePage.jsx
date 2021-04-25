@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import CodeContainer from '../components/CodeContainer.jsx';
 import WaitingModal from '../components/waitingModal.jsx';
 import GameHeader from '../components/gameHeader.jsx';
@@ -40,6 +40,8 @@ const gamePage = () => {
   ]);
   const [gameOver, setGameOver] = useState(false);
   const [codeBlockId, setCodeBlockId] = useState(1);
+  const [renderCount, setRenderCount] = useState(0);
+  const [avatar, setAvatar] = useState({});
 
   // check for gameOver
   useEffect(() => {
@@ -129,20 +131,20 @@ const gamePage = () => {
 
   useEffect(() => {
     if (players[0].percentage === 100 && players[1].percentage === 100) {
-      let winner =''
+      let winner = '';
       if (players[0].timeCompleted > players[1].timeCompleted) {
-        winner = players[0].username
+        winner = players[0].username;
       } else {
-        winner = players[1].username
+        winner = players[1].username;
       }
-      
+
       setPlayers([
         ...players,
         (players[0].winner = winner),
         (players[1].winner = winner),
       ]);
     }
-  }, [players[0].percentage,players[1].percentage],);
+  }, [players[0].percentage, players[1].percentage]);
 
   // socket.on('opponentWon', data => {
   //   console.log('opponentWon: ', data);
@@ -160,19 +162,32 @@ const gamePage = () => {
     return Math.floor(Math.random() * (max - min) + min);
   }
 
-  const raceTrackArray = [];
-  for (let i = 0; i < 2; i++) {
-    raceTrackArray.push(
-      <RaceTrack
-        pokemon={eevees[getRandom(0, 6)]}
-        percentage={players[i].percentage}
-        username={players[i].username}
-        gameOver={gameOver}
-        players={players}
-        key={players[i].username}
-      />
-    );
-  }
+  const track = useMemo(() => {
+    const raceTrackArray = [];
+    const randomEevee = () => {
+      return eevees[getRandom(0, 6)];
+    };
+    const eeveeCache = {};
+    for (let i = 0; i < 2; i++) {
+      if (renderCount < 2) {
+        eeveeCache[i] = randomEevee();
+        setAvatar({ ...avatar, ...eeveeCache });
+      }
+      raceTrackArray.push(
+        <RaceTrack
+          pokemon={avatar[i]}
+          percentage={players[i].percentage}
+          username={players[i].username}
+          gameOver={gameOver}
+          players={players}
+          key={i}
+        />
+      );
+      console.log(raceTrackArray);
+    }
+    setRenderCount(renderCount + 1);
+    return raceTrackArray;
+  }, [players]);
 
   // conditional rendering depending on number of players in the room
   if (playersJoined < 2) {
@@ -192,7 +207,7 @@ const gamePage = () => {
           playersState={players}
           setPlayersState={setPlayers}
         />
-        <div className="trackBox">{raceTrackArray}</div>
+        <div className="trackBox">{track}</div>
         <CodeContainer
           playersState={players}
           setPlayersState={setPlayers}
